@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advice Project</title>
+    <script src="jquery-3.4.1.min.js"></script>
+
+    <!--Bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
+    <style>
+        body
+        {
+            background-color: #49BEFE;
+            font-size: 20pt;
+            font-weight: bold;
+            color: rgb(9, 74, 109);
+        }
+        div#entire
+        {
+            box-sizing: border-box;
+            padding: 30px;  
+            width: 50%;
+            margin: auto;
+            font-family: 'Baloo Tamma 2', cursive;
+            background-color: #49BEFE;
+        }
+        input 
+        {
+            width: 70%;
+            padding: 8px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 4px solid rgb(13, 109, 160);
+            border-radius: 10px;
+            transition: 0.5s;
+            outline: none;
+            font-family: 'Baloo Tamma 2', cursive;
+            font-size: 13pt;
+        }
+        button
+        {
+            font-size: 13pt;
+            font-family: 'Baloo Tamma 2', cursive;
+            margin: 4px 2px;
+            background-color: white;
+            padding: 8px 20px;
+            color: #2a3a42;
+            border: 4px solid rgb(13, 109, 160);
+            border-radius: 10px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            width: 27%;
+        }
+        button:hover
+        {
+            background-color: rgb(13, 109, 160);
+            color: white;
+        }
+        img
+        {
+            width: 50%;
+            margin: auto;
+            display: block;
+        }
+    </style>
+    
+    <script>
+        //http://api.openweathermap.org/data/2.5/weather?q=Manhattan&APPID=001b0f58045147663b1ea518d34d88b4&units=metric
+
+        function newmessage()
+        {
+            var request = new XMLHttpRequest();
+
+            var url = "http://api.openweathermap.org/data/2.5/weather?q=" + document.getElementById("location").value + "&APPID=001b0f58045147663b1ea518d34d88b4&units=metric";
+
+            request.open("GET", url, true);
+
+            request.send();
+
+            request.onload = function(){
+
+            //Use the JavaScript function JSON.parse() to convert text into a JavaScript object
+
+            var data = JSON.parse(this.response);
+
+            if (request.status >= 200 && request.status < 400) {
+                $("#temp").text(parseInt((data["main"]["temp"]*(9/5))+32) + " \xB0F");
+                $("#feel").text(parseInt((data["main"]["feels_like"]*(9/5))+32) + " \xB0F");
+                $("#humid").text(parseInt(data["main"]["humidity"]) + "%");
+                $("#view").text(data["weather"][0]["main"]);
+                $("#local").text(data["sys"]["country"]);
+            } 
+            };
+
+        }
+
+    </script>
+</head>
+<body>
+    <div id = "entire">
+        <img src = "https://cdn.dribbble.com/users/580699/screenshots/2934892/summer.gif" />
+        <div class="container">
+            <input id = "location" placeholder="Location" />
+            <button id= "submit" onclick="newmessage()">Submit</button>
+            <div>Country: <span id="local"></span></div>
+            <div>Temperature: <span id="temp"></span></div>
+            <div>Feels Like: <span id="feel"></span></div>
+            <div>Humidity: <span id="humid"></span></div>
+            <div>View: <span id="view"></span></div>
+        </div>
+    </div>
+</body>
+</html>
